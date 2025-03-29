@@ -169,17 +169,23 @@ def api_chat():
         logging.error(f"Error getting response from LLM: {str(e)}")
         response = f"I'm sorry, I encountered an error: {str(e)}"
     
+    # Extract content if it's an AIMessage object (from LangChain)
+    if hasattr(response, 'content'):
+        response_content = response.content
+    else:
+        response_content = str(response)
+    
     # Save the assistant's response
     assistant_message = ChatMessage(
         session_id=chat_session.id,
         role='assistant',
-        content=response
+        content=response_content
     )
     db.session.add(assistant_message)
     db.session.commit()
     
     return jsonify({
-        'response': response,
+        'response': response_content,
         'timestamp': datetime.utcnow().isoformat()
     })
 

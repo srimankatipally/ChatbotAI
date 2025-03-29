@@ -44,19 +44,19 @@ def get_file_content(file_path):
     
     try:
         if extension == '.pdf':
-            from langchain.document_loaders import PyPDFLoader
+            from langchain_community.document_loaders import PyPDFLoader
             loader = PyPDFLoader(file_path)
             return loader.load()
         elif extension in ['.doc', '.docx']:
-            from langchain.document_loaders import Docx2txtLoader
+            from langchain_community.document_loaders import Docx2txtLoader
             loader = Docx2txtLoader(file_path)
             return loader.load()
         elif extension == '.csv':
-            from langchain.document_loaders import CSVLoader
+            from langchain_community.document_loaders import CSVLoader
             loader = CSVLoader(file_path)
             return loader.load()
         elif extension in ['.txt', '.md']:
-            from langchain.document_loaders import TextLoader
+            from langchain_community.document_loaders import TextLoader
             loader = TextLoader(file_path)
             return loader.load()
         else:
