@@ -3,14 +3,14 @@ import logging
 from typing import List, Dict, Any
 import tempfile
 
-from langchain.vectorstores import Chroma
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import OpenAIEmbeddings
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.document_loaders import TextLoader
-from langchain.chat_models import ChatOpenAI
+from langchain_community.document_loaders import TextLoader
+from langchain_community.chat_models import ChatOpenAI
 
 # the newest OpenAI model is "gpt-4o" which was released May 13, 2024.
 # do not change this unless explicitly requested by the user
@@ -105,13 +105,16 @@ def get_conversation_chain(llm, context):
     
     Question: {question}
     
+    Chat History (for reference):
+    {chat_history}
+    
     Provide a helpful, accurate, and concise answer based only on the given context.
     """
     
     # Create the prompt from the template
     prompt = PromptTemplate(
         template=prompt_template,
-        input_variables=["context", "question"]
+        input_variables=["context", "question", "chat_history"]
     )
     
     # Chain type will use the prompt, LLM, and format the input docs as the context

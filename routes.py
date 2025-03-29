@@ -151,14 +151,18 @@ def api_chat():
             previous_messages.reverse()
             
             # Format previous messages for the chain
-            chat_history = []
+            chat_history_items = []
             for msg in previous_messages:
                 if msg.id != user_chat_message.id:  # Don't include the current message
-                    chat_history.append({"role": msg.role, "content": msg.content})
+                    chat_history_items.append(f"{msg.role.capitalize()}: {msg.content}")
+            
+            # Format chat history as a string for the prompt
+            chat_history = "\n".join(chat_history_items) if chat_history_items else "No previous messages"
             
             # Get response from the chain
             response = chain.invoke({
                 "question": user_message,
+                "context": context,
                 "chat_history": chat_history
             })
     except Exception as e:
